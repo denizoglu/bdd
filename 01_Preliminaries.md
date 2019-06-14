@@ -1,16 +1,16 @@
 # What to Do First When You First Install a Brand New Server
 
 # Table of Contents
-1. [Change Password of the `root` Account ASAP](#example)
-2. [Update and Upgrade the Programs ASAP](#example2)
-3. [Install fail2ban](#third-example)
+1. [Change Password of the `root` Account ASAP](#1-change-password-of-the-root-account-asap)
+2. [Update and Upgrade the Programs ASAP](#2-update-and-upgrade-the-programs-asap)
+3. [Install fail2ban](https://github.com/denizoglu/bdd/blob/master/01_Preliminaries.md#3-install-fail2ban)
 4. [Create a new power user and add it to the relevant access groups](#example4)
-5.
 
 
-So, I've bought a new vps for my project on Hetzner and I've installed Ubuntu 18.04 TLS version.
 
-The ip address I got for this server is 116.203.189.123. Therefore I'd like to connect to my server through SSH:
+So, I've bought a new VPS for my project on Hetzner and I've installed Ubuntu 18.04 TLS version.
+
+The IP address I got for this server is 116.203.189.123. Therefore I'd like to connect to my server through SSH:
 
 ```
 sd@sd-REDUNIX:~$ ssh root@116.203.189
@@ -53,7 +53,7 @@ Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.15.0-50-generic x86_64)
 25 updates are security updates.
 ```
 
-Most possibly, there will be updates available as above. But before ALL, we need de setup a good password for the `root` account.
+Most possibly, there will be updates available as above. But before ALL, we need to setup a good password for the `root` account.
 
 ## 1. Change Password of the `root` Account ASAP
 
@@ -87,7 +87,7 @@ One of the first and foremost security precautions to be taken (_IMHO_) is to in
 root@rubi-beta:~# apt-get install fail2ban
 ```
 
-You are strongly recommended to install it and see the logs for yourself just to ses once again that Internet is definitely a safe space.
+You are strongly recommended to install it and see the logs for yourself just to see once again that Internet is definitely a safe space.
 
 ## 4. Create a new power user and add it to the relevant access groups
 
@@ -138,7 +138,7 @@ root@rubicon:~# vim /home/sd/.ssh/authorized_keys
 
 From your own (local) computer, you'll have to copy the content of your own public key (found at `/home/your_username/.ssh/id_rsa.pub`) and paste into that file in the remote server (`/home/sd/.ssh/authorized_keys`). Save and quit afterwards. To this file, you should add public keys of any other machine that you'd like enable to ssh into the remote server.
 
-We noww have to change the access rights of so that _only the owner_ (in this case, user `sd`) can _read_ the file. The file gets read-only even for the owner. It's just a precaution to prevent accidental editing of the file. And then we change the owner of the whole `/home/sd` directory to `sd` recursively, that is, all files and folders under this directory are from now on owned by `sd`.
+We now have to change the access rights of so that _only the owner_ (in this case, user `sd`) can _read_ the file. The file gets read-only even for the owner. It's just a precaution to prevent accidental editing of the file. And then we change the owner of the whole `/home/sd` directory to `sd` recursively, that is, all files and folders under this directory are from now on owned by `sd`.
 
 ```
 root@rubicon:~# chmod 400 /home/sd/.ssh/authorized_keys
