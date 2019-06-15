@@ -57,7 +57,7 @@ Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.15.0-50-generic x86_64)
 
 Most possibly, there will be updates available as above. But before ALL, we need to setup a good password for the `root` account.
 
-## 1. Change Password of the `root` Account ASAP
+# 1. Change Password of the `root` Account ASAP
 
 Enter a preferably long, easy to remember password for yourself twice:
 
@@ -72,7 +72,7 @@ I strongly advise you to record it in a good password manager like [KeePass](htt
 
 Now we have to a update apt-get database and then order it to install all updates available:
 
-## 2. Update and Upgrade the Programs ASAP
+# 2. Update and Upgrade the Programs ASAP
 
 ```bash
 root@rubi-beta:~# apt-get update
@@ -81,7 +81,7 @@ root@rubi-beta:~# apt-get upgrade
 
 It will most probably ask you for your input on some critical updates and what course of action to take. Reply accordingly to finish the update/upgrade process.
 
-## 3. Install **`fail2ban`**
+# 3. Install **`fail2ban`**
 
 One of the first and foremost security precautions to be taken (_IMHO_) is to install **`fail2ban`**, which is a daemon that monitors incoming login requests and blocks suspicious activity by blacklisting IP addresses that apparently are not with good will.
 
@@ -91,7 +91,7 @@ root@rubi-beta:~# apt-get install fail2ban
 
 You are strongly recommended to install it and see the logs for yourself just to see once again that Internet is definitely a safe space.
 
-## 4. Create a new power user and add it to the relevant access groups
+# 4. Create a new power user and add it to the relevant access groups
 
 After these steps, it is a safe practice to create a new user that will have elevated access rights to carry on with installation and deployment, rather than using the root account itself.
 
@@ -123,7 +123,9 @@ Now we need to grant him `sudo` access by adding him/her to the `sudo` group, as
 root@rubi-beta:~# usermod -aG sudo,www-data sd
 ```
 
-## 5. Enable SSH authentication
+# 5. Set up SSH and Disable Password Authentication
+
+## Set up SSH
 
 We need to create .ssh directory in the newly created user's home directory,, and edit access rights accordingly, to let us ssh into the remote web server:
 
@@ -146,8 +148,28 @@ We now have to change the access rights of so that _only the owner_ (in this cas
 root@rubicon:~# chmod 400 /home/sd/.ssh/authorized_keys
 root@rubicon:~# chown sd:sd /home/sd -R
 ```
-## 6. Test the Access Rights and Enable sudo for sd
 
-Let us test if the new user have the correct access rights and
+## Test Access Rights
+> **Keeping a root login session open (as you'd not want to lock yourself out of the server)**, let us test the new user:
 
-## 7. Enable public key authentication:
+```bash
+sd@sd-REDUNIX:~$ ssh sd@rubiconmedya.com
+```
+
+If you had not set up a passphrase for your private key (on your local computer), then you will be logged in directly as follows. Otherwwise, you'll be asked for it. Enter you passphrase to unlock your private key and log in to remote server:
+
+```bash
+sd@sd-REDUNIX:~$ ssh sd@rubiconmedya.com
+The authenticity of host 'rubiconmedya.com (116.203.189.123)' can't be established.
+ECDSA key fingerprint is SHA256:vitaSKixALW09AkEAHCRZ1Hg61JRZH6Tu3RdNKfFe58.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'rubiconmedya.com,116.203.189.123' (ECDSA) to the list of known hosts.
+```
+
+## Disable Password Authentication 
+
+# 6. Set up Firewall and Tune for Access
+
+
+
+# 7. 
