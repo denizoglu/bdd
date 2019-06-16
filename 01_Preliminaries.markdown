@@ -55,7 +55,7 @@ Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.15.0-50-generic x86_64)
 25 updates are security updates.
 ```
 
-Most possibly, there will be updates available as above. But before ALL, we need to setup a good password for the `root` account.
+Most possibly, there will be updates available as above. For security reasons, we need to update and upgrade all sofware. But *before ALL*, we need to set a good password for the `root` account.
 
 # 1. Change Password of the `root` Account ASAP
 
@@ -86,7 +86,7 @@ It will most probably ask you for your input on some critical updates and what c
 One of the first and foremost security precautions to be taken (_IMHO_) is to install **`fail2ban`**, which is a daemon that monitors incoming login requests and blocks suspicious activity by blacklisting IP addresses that apparently are not with good will.
 
 ```bash
-root@rubi-beta:~# apt-get install fail2ban
+ apt-get install fail2ban
 ```
 
 You are strongly recommended to install it and see the logs for yourself just to see once again that Internet is definitely a safe space.
@@ -125,7 +125,7 @@ root@rubi-beta:~# usermod -aG sudo,www-data sd
 
 # 5. Set up SSH and Disable Password Authentication
 
-## Set up SSH
+## 5.1 Set up SSH
 
 We need to create .ssh directory in the newly created user's home directory,, and edit access rights accordingly, to let us ssh into the remote web server:
 
@@ -149,14 +149,14 @@ root@rubicon:~# chmod 400 /home/sd/.ssh/authorized_keys
 root@rubicon:~# chown sd:sd /home/sd -R
 ```
 
-## Test Access Rights
+## 5.2 Test Access Rights
 > **Keeping a root login session open (as you'd not want to lock yourself out of the server)**, let us test the new user:
 
 ```bash
 sd@sd-REDUNIX:~$ ssh sd@rubiconmedya.com
 ```
 
-If you had not set up a passphrase for your private key (on your local computer), then you will be logged in directly as follows. Otherwwise, you'll be asked for it. Enter you passphrase to unlock your private key and log in to remote server:
+If you had not set up a passphrase for your private key (on your local computer), then you will be logged in directly as follows. Otherwise, you'll be asked for it. Enter you passphrase to unlock your private key and log in to remote server:
 
 ```bash
 sd@sd-REDUNIX:~$ ssh sd@rubiconmedya.com
@@ -166,10 +166,82 @@ Are you sure you want to continue connecting (yes/no)? yes
 Warning: Permanently added 'rubiconmedya.com,116.203.189.123' (ECDSA) to the list of known hosts.
 ```
 
-## Disable Password Authentication 
+## 5.3 Disable Password Authentication 
 
-# 6. Set up Firewall and Tune for Access
+Since now you can access the server with your newly created non-root account, it is time to disable old-school simple password authentication and allow logins only  through SSH. 
+
+To do this, edit SSH daemon's configuration file:
+
+```bash
+sd@rubicon:~$ sudo vim /etc/ssh/sshd_config 
+```
+
+In the file, find the line containing `PasswordAuthentication yes` and change it into `PasswordAuthentication no`. 
+
+Save and close the file, and then restart the SSH daemon to put the changes into effect. 
+
+```bash
+sd@rubicon:~$ sudo systemctl restart ssh
+```
+Again, as a precaution here, keep this terminal open connected to the server, and test if you still can connect to the server with the new configuration:
+
+```bash
+sd@sd-REDUNIX:~$ ssh sd@rubiconmedya.com
+```
+
+If this works, congratulations, you've set your SSH up correctly. 
 
 
+# 6. Set up `ufw` - the Uncomplicated Firewall 
 
-# 7. 
+You would not want every other person passing by to have a look at your server's system under the hood, would you? To do this, you should block unnecessary ports for both security and efficiency measures, and this brings us to firewalls.
+
+Ubuntu comes with a default firewall application available called `ufw`, which stands for _Uncomplicated Firewall_, which is a relatively easier interface to `iptables`. 
+
+Normally, the program should be available in Ubuntu 18.04 LTS, if it is *not* so for your system for whatever reason, then you probably will see such an error message:
+
+```bash
+sd@rubicon:~$ sudo ufw status
+ufw: command not found
+```
+
+If this is the case, then you'll need to install it as any other program via `apt` in Ubuntu:
+
+```bash
+sd@rubicon:~$ sudo apt-get install ufw
+```
+
+Otherwise, normally, you'd see that it is installed in your server OS but not active:
+
+```bash
+sd@rubicon:~$ sudo ufw status
+[sudo] password for sd: 
+Status: inactive
+```
+
+Had it been active, it would have printed out that it was active and listed any rules that might have been saved before. We will simply suppose that it is inactive, so will first define the rule to allow SSH tunneling, and then enable it and define more rules.
+
+Start with allowing SSH first:
+
+```bash
+sd@rubicon:~$ sudo ufw allow 22
+```
+
+We will then enable `ufw`:
+
+```bash
+sd@rubicon:~$ sudo ufw enable
+```
+
+You might see a message warning you that this "may disrupt existing ssh connections", just ignore it and type `y` to accept it  as we already have defined the rule to allow SSH connection through port 22.
+
+Besides these, we need to enable HTTP and HTTPS connections through the ports 80 and 443, respectively. To keep it short, we'll do both at once:
+
+```bash
+sd@rubicon:~$ sudo ufw allow proto tcp from any to any port 80,443
+```
+You should enable POP/IMAP and SMTP ports (110, 143 and 25, respectively) for email _**ONLY IF**_ you have plans to install your own email server, which, in this era, I personally would not recommend and kindly suggest you to outsource the it to very reliable -and affordable- corporate email service providers.
+
+# 7. Enable & Setup Automatic Unattended Security Updates 
+
+# 8. Install and Use Logwatch Log Analyzer and Reporter to Get Reports on Your Server
