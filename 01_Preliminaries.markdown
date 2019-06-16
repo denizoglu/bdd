@@ -5,15 +5,15 @@
 # Table of Contents
 1. [Change Password of the `root` Account ASAP](#1-change-password-of-the-root-account-asap)
 2. [Update and Upgrade the Programs ASAP](#2-update-and-upgrade-the-programs-asap)
-3. [Install fail2ban](#3-install-fail2ban)
+3. [Install `fail2ban`](#3-install-fail2ban)
 4. [Create a new power user and add it to the relevant access groups](#4-create-a-new-power-user-and-add-it-to-the-relevant-access-groups)
 5. [Set up SSH and Disable Password Authentication](#5-set-up-ssh-and-disable-password-authentication)  
   5.1. [Set up SSH](#51-set-up-ssh)  
   5.2. [Test Access Rights](#52-test-access-rights)  
   5.3. [Disable Password Authentication](#53-disable-password-authentication)
-6. [Set up ufw - the Uncomplicated Firewall](#6-set-up-ufw---the-uncomplicated-firewall)
+6. [Set up `ufw` - the Uncomplicated Firewall](#6-set-up-ufw---the-uncomplicated-firewall)
 7. [Enable & Setup Automatic Unattended Security Updates](#7-enable--setup-automatic-unattended-security-updates)
-8. [Install and Use Logwatch Log Analyzer and Reporter to Get Reports on Your Server](#8-install-and-use-logwatch-log-analyzer-and-reporter-to-get-reports-on-your-server)
+8. [Install and Use `logwatch` Log Analyzer and Reporter to Get Reports on Your Server](#8-install-and-use-logwatch-log-analyzer-and-reporter-to-get-reports-on-your-server)
 
 So, I've bought a new VPS for my project on Hetzner and I've installed Ubuntu 18.04 TLS version.
 
