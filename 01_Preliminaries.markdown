@@ -1,4 +1,4 @@
-# What to Do First When You First Install a Brand New Server
+# What to Do First When You Install a Brand New Server
 
 [TOC]
 
@@ -89,7 +89,7 @@ One of the first and foremost security precautions to be taken (_IMHO_) is to in
  apt-get install fail2ban
 ```
 
-You are strongly recommended to install it and see the logs for yourself just to see once again that Internet is definitely a safe space.
+You are strongly recommended to install it and see the logs for yourself just to see once again that Internet is definitely **NOT** a safe space.
 
 # 4. Create a new power user and add it to the relevant access groups
 
@@ -191,6 +191,9 @@ sd@sd-REDUNIX:~$ ssh sd@rubiconmedya.com
 
 If this works, congratulations, you've set your SSH up correctly. 
 
+>> **\*\*IMPORTANT\*\***:
+  In case you somehow change the authorization keys, or their permissions are cancelled, you can always login via `Console` of the relevant project/server through [Hetzner's website](https://console.hetzner.cloud/projects). Most hosting companies nowadays provide such consoles through their websites.
+
 
 # 6. Set up `ufw` - the Uncomplicated Firewall 
 
@@ -284,5 +287,42 @@ Unattended-Upgrade::Allowed-Origins {
 ...
 ```
 
-
 # 8. Install and Use Logwatch Log Analyzer and Reporter to Get Reports on Your Server
+
+To keep logs fo what is happening to/with your server, I would recommend you to install [`Logwatch`](https://sourceforge.net/projects/logwatch). It analyzes and reports important events in the server. Install it with `apt` as usual:
+
+```bash
+sd@rubicon:~$ sudo apt install logwatch
+```
+First installation greets you as shown in [Figure 1]() and asks you about what kind of a typical installation you want for your server. You can choose the default type `Internet Site` and carry on. 
+
+On the next screen it will ask you for the FQDN (Fully Qualified Domain Name) of your server, so if you have already decided your domain name, fill it in so. In may case, the domain name is `rubiconmedya.com`. You can tweak all these default settings in this file later on: 
+
+```
+/usr/share/logwatch/default.conf/logwatch.conf
+```
+
+For instance, I have changed the settings as follows, leaving the rest the same:
+
+```
+...
+MailTo = mypreciousemailaddress@gmail.com
+MailFrom = sysadmin@rubiconmedya.com
+...
+```
+
+Then add a daily cron job to enable logwatch send you reports to the email you provided:
+
+```bash
+vim /etc/cron.daily/00logwatch
+```
+
+Replace the line that has `/usr/sbin/logwatch --output mail` with this below (_Do not forget to replace with your own email address_):
+
+```
+/usr/sbin/logwatch --output mail --mailto your_precious_email_address@gmail.com --detail medium
+```
+
+Remember `fail2ban` [we installed](#3-install-fail2ban)
+
+You will believe what an unsafe medium internet is when you get your first email from logwatch reporting how many IPs are blocked by fail2ban alone. 
