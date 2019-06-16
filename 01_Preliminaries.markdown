@@ -6,7 +6,14 @@
 1. [Change Password of the `root` Account ASAP](#1-change-password-of-the-root-account-asap)
 2. [Update and Upgrade the Programs ASAP](#2-update-and-upgrade-the-programs-asap)
 3. [Install fail2ban](#3-install-fail2ban)
-4. [Create a new power user and add it to the relevant access groups](#example4)
+4. [Create a new power user and add it to the relevant access groups](#4-create-a-new-power-user-and-add-it-to-the-relevant-access-groups)
+5. [Set up SSH and Disable Password Authentication](#5-set-up-ssh-and-disable-password-authentication)
+    5.1. [Set up SSH](#51-set-up-ssh)
+    5.2. [Test Access Rights](#52-test-access-rights)
+    5.3. [Disable Password Authentication](#53-disable-password-authentication)
+6. [Set up ufw - the Uncomplicated Firewall](#6-set-up-ufw---the-uncomplicated-firewall)
+7. [Enable & Setup Automatic Unattended Security Updates](#7-enable--setup-automatic-unattended-security-updates)
+8. [Install and Use Logwatch Log Analyzer and Reporter to Get Reports on Your Server](#8-install-and-use-logwatch-log-analyzer-and-reporter-to-get-reports-on-your-server)
 
 
 
@@ -287,7 +294,7 @@ Unattended-Upgrade::Allowed-Origins {
 ...
 ```
 
-# 8. Install and Use Logwatch Log Analyzer and Reporter to Get Reports on Your Server
+# 8. Install and Use `logwatch` Log Analyzer and Reporter to Get Reports on Your Server
 
 To keep logs fo what is happening to/with your server, I would recommend you to install [`Logwatch`](https://sourceforge.net/projects/logwatch). It analyzes and reports important events in the server. Install it with `apt` as usual:
 
@@ -296,7 +303,7 @@ sd@rubicon:~$ sudo apt install logwatch
 ```
 First installation greets you as shown in [Figure 1]() and asks you about what kind of a typical installation you want for your server. You can choose the default type `Internet Site` and carry on. 
 
-On the next screen it will ask you for the FQDN (Fully Qualified Domain Name) of your server, so if you have already decided your domain name, fill it in so. In may case, the domain name is `rubiconmedya.com`. You can tweak all these default settings in this file later on: 
+On the next screen [Figure 2]() it will ask you for the FQDN (Fully Qualified Domain Name) of your server, so if you have already decided your domain name, fill it in so. In may case, the domain name is `rubiconmedya.com`. You can tweak all these default settings in this file later on: 
 
 ```
 /usr/share/logwatch/default.conf/logwatch.conf
@@ -323,6 +330,6 @@ Replace the line that has `/usr/sbin/logwatch --output mail` with this below (_D
 /usr/sbin/logwatch --output mail --mailto your_precious_email_address@gmail.com --detail medium
 ```
 
-Remember `fail2ban` [we installed](#3-install-fail2ban)
+Remember `fail2ban` [we installed](#3-install-fail2ban)?
 
 You will believe what an unsafe medium internet is when you get your first email from logwatch reporting how many IPs are blocked by fail2ban alone. 
