@@ -168,7 +168,7 @@ Warning: Permanently added 'rubiconmedya.com,116.203.189.123' (ECDSA) to the lis
 
 ## 5.3 Disable Password Authentication 
 
-Since now you can access the server with your newly created non-root account, it is time to disable old-school simple password authentication and allow logins only  through SSH. 
+Since now you can access the server with your newly created non-root account, it is time to disable the old-school simple password authentication and allow logins only  through SSH. 
 
 To do this, edit SSH daemon's configuration file:
 
@@ -243,5 +243,46 @@ sd@rubicon:~$ sudo ufw allow proto tcp from any to any port 80,443
 You should enable POP/IMAP and SMTP ports (110, 143 and 25, respectively) for email _**ONLY IF**_ you have plans to install your own email server, which, in this era, I personally would not recommend and kindly suggest you to outsource the it to very reliable -and affordable- corporate email service providers.
 
 # 7. Enable & Setup Automatic Unattended Security Updates 
+
+After you have your website set up and everything is in order, over time, you'll come to realize that you haven't logged into your server through SSH, and when you do, you'll most probably realize that there are a dozen if not many more updates are waiting to be installed, among which, security ones are of vital importance. 
+
+This is actually what we have seen when we logged into the server for the first time and saw that there were over two dozens of security pathces/updates available.
+
+To prevent this, you can enable unattended **security** updates with `unattended-upgrades` package installed:
+
+```bash
+sd@rubicon:~$ sudo apt-get install unattended-upgrades
+```
+
+Then edit the file `/etc/apt/apt.conf.d/10periodic` for scheduled updates:
+
+```bash
+sd@rubicon:~$ sudo vim /etc/apt/apt.conf.d/10periodic
+```
+
+Add those lines into the file:
+
+```
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Download-Upgradeable-Packages "0";
+APT::Periodic::AutocleanInterval "0";
+```
+
+Next is defining list of unattended upgrades to `apt`:
+
+```bash
+sd@rubicon:~$ sudo /etc/apt/apt.conf.d/50unattended-upgrades
+```
+
+Edit the file's content so that it includes those lines:
+
+```
+...
+Unattended-Upgrade::Allowed-Origins {
+        "${distro_id}:${distro_codename}";
+        "${distro_id}:${distro_codename}-security";
+...
+```
+
 
 # 8. Install and Use Logwatch Log Analyzer and Reporter to Get Reports on Your Server
