@@ -75,7 +75,8 @@ passwd: password updated successfully
 
 I strongly advise you to record it in a good password manager like [KeePass](https://keepass.info/). Even better, install KeePass first, and create a very strong password with it. You can find more information on how to install KeePass for your system and synchronize your password database across multiple computers _-and even mobile phones-_ **[here](https://www.howtogeek.com/165882/how-to-use-keepass-in-your-browser-across-your-computers-and-on-your-phone/)**.
 
-Now we have to a update apt-get database and then order it to install all updates available:
+From now on, I'll suppose that 
+Now we have to a update apt-get database and then order it to install all updates available.
 
 # 2. Update and Upgrade the Programs ASAP
 
@@ -91,7 +92,7 @@ It will most probably ask you for your input on some critical updates and what c
 One of the first and foremost security precautions to be taken (_IMHO_) is to install **`fail2ban`**, which is a daemon that monitors incoming login requests and blocks suspicious activity by blacklisting IP addresses that apparently are not with good will.
 
 ```bash
- apt-get install fail2ban
+root@rubi-beta:~# apt-get install fail2ban
 ```
 
 You are strongly recommended to install it and see the logs for yourself just to see once again that Internet is definitely **NOT** a safe space.
@@ -155,7 +156,7 @@ root@rubicon:~# chown sd:sd /home/sd -R
 ```
 
 ## 5.2 Test Access Rights
-> **Keeping a root login session open (as you'd not want to lock yourself out of the server)**, let us test the new user:
+> **Keeping a root login session open (as you'd not want to lock yourself out of the server)**, let's test the new user:
 
 ```bash
 sd@sd-REDUNIX:~$ ssh sd@rubiconmedya.com
@@ -307,11 +308,11 @@ On the next screen [Figure 2]() it will ask you for the FQDN (Fully Qualified Do
 /usr/share/logwatch/default.conf/logwatch.conf
 ```
 
-For instance, I have changed the settings as follows, leaving the rest the same:
+It should look like as follows, leaving the rest the same:
 
 ```
 ...
-MailTo = mypreciousemailaddress@gmail.com
+MailTo = your_precious_email_address@gmail.com
 MailFrom = sysadmin@rubiconmedya.com
 ...
 ```
