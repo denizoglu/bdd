@@ -1,4 +1,4 @@
-# What to Do First When You Install a Brand New Server
+# What to Do First When You Install a Brand New Server 
 
 [TOC]
 
