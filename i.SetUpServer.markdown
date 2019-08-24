@@ -313,7 +313,7 @@ It should look like as follows, leaving the rest the same:
 ```
 ...
 MailTo = your_precious_email_address@gmail.com
-MailFrom = sysadmin@rubiconmedya.com
+MailFrom = sysadmin@YourDomainName.com
 ...
 ```
 
