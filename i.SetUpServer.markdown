@@ -280,7 +280,7 @@ APT::Periodic::AutocleanInterval "0";
 Next is defining list of unattended upgrades to `apt`:
 
 ```bash
-sd@rubicon:~$ sudo /etc/apt/apt.conf.d/50unattended-upgrades
+sd@rubicon:~$ sudo vim /etc/apt/apt.conf.d/50unattended-upgrades
 ```
 
 Edit the file's content so that it includes those lines:
